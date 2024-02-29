@@ -1,12 +1,20 @@
 # Memory Tracker
+
+To run this project in a `production`, it is necessary to install and configure `DockerSwarm`, as well as to create a `Node`.
 ### Create Network
 Create a network with the driver `overlay`: <br/>
 `docker network create --driver overlay mt-local` <br/>
 `docker network create --driver overlay mt-public`
 ### Build the images
-CD to the path `memory_tracker/docker/Dockerfile` and run the following commands to create images:<br/>
+CD to the path `docker/Dockerfile` and run the following commands to create images:<br/>
 `docker-compose build memory_tracker-fastapi` <br/>
 `docker-compose build memory_tracker-nginx`
+
+To run in the development mode, please run the following command, otherwise, continue the steps to the `Run` section.<br/>
+`docker compose -f docker/docker-compose-dev.yml up` <br />
+`curl -X GET http://localhost:8000/memory-logs/` <br />
+
+For more information about the api, see 'endpoints' section.
 
 ### Environment Variables (production)
 Create an environment variable with a username (you will use it for the HTTP Basic Auth for Traefik), for example:<br/>
@@ -50,7 +58,7 @@ docker-compose-deploy.yml
 #### Retrieve Memory Logs [GET] <br/> 
 ``http://logger.hadido.ir/memory-logs/?limit=10&skip=3``
 
-+ Headers
++ Headers (production)
   + `Authorization`: `Basic aGFkaTpkbw==`
   + {username: hadi, password: do}
 + Parameters
