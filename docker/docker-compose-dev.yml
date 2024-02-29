@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  memory_tracker-flask:
+    image: registry.hadido.ir/hpds/memory-tracker/fastapi:latest
+    networks:
+      - mt-local
+    volumes:
+      - ../app:/srv/memory_tracker
+
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+    ports:
+      - "8000:8000"
+
+networks:
+  mt-local:
+    attachable: true

@@ -1,0 +1,53 @@
+version: "3.8"
+
+services:
+  memory_tracker-fastapi:
+    image: registry.hadido.ir/hpds/memory-tracker/fastapi:latest
+    networks:
+      - mt-local
+      - mt-public
+    volumes:
+      - memory_tracker-db-volume:/srv/memory_tracker/memory_tracker/db
+
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+
+  memory_tracker-nginx:
+    image: registry.hadido.ir/hpds/memory-tracker/nginx:latest
+    networks:
+      - mt-local
+      - mt-public
+      - traefik-public
+
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=traefik-public
+        - traefik.constraint-label=traefik-public
+#        - traefik.http.middlewares.memory_tracker-ipwhitelist.ipwhitelist.sourcerange=195.214.20.199, 51.30.166.123
+#        - traefik.http.routers.memory_tracker-http.middlewares=memory_tracker-ipwhitelist
+        - traefik.http.middlewares.api-auth.basicauth.users=${USERNAME?Variable not set}:${HASHED_PASSWORD?Variable not set}
+        - traefik.http.middlewares.api-ratelimit.ratelimit.burst=5
+        - traefik.http.middlewares.api-ratelimit.ratelimit.average=5
+        - traefik.http.middlewares.api-ratelimit.ratelimit.period=1m
+        - traefik.http.middlewares.api-ratelimit.ratelimit.sourcecriterion.requesthost=true
+        - traefik.http.routers.memory_tracker-http.rule=Host(`logger.hadido.ir`)
+        - traefik.http.routers.memory_tracker-http.entrypoints=http
+        - traefik.http.routers.memory_tracker-http.middlewares=api-auth, api-ratelimit
+        - traefik.http.services.memory_tracker.loadbalancer.server.port=80
+
+networks:
+  mt-local:
+    attachable: true
+  mt-public:
+    external: true
+  traefik-public:
+    external: true
+
+volumes:
+  memory_tracker-db-volume:

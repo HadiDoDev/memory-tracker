@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  memory_tracker-fastapi:
+    image: registry.hadido.ir/hpds/memory-tracker/fastapi:latest
+    container_name: ${PROJECT_NAME}-fastapi
+    build:
+      context: ../../
+      dockerfile: docker/Dockerfile/fastapi.Dockerfile
+      args:
+        - PROJECT_NAME=${PROJECT_NAME}
+        - PROJECT_ROOT=${PROJECT_ROOT}
+        - DEBUG=${DEBUG}
+        - PRODUCTION_MODE=${PRODUCTION_MODE}
+
+  memory_tracker-nginx:
+    image: registry.hadido.ir/hpds/memory-tracker/nginx:latest
+    container_name: ${PROJECT_NAME}-nginx
+    build:
+      context: ../../
+      dockerfile: docker/Dockerfile/nginx.Dockerfile
+      args:
+        - DOMAIN_NAMES=${DOMAIN_NAMES}
+        - PROJECT_NAME=${PROJECT_NAME}
