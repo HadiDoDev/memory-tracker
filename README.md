@@ -20,8 +20,8 @@ CD to the path `memory_tracker/docker` and run the following commands to create 
 `docker stack deploy -c docker-compose-[deploy|dev].yml memory-tracker`
 -----
 
-## Docker Traefik Labels
-### docker-compose-deploy.yml
+### Docker Traefik Labels
+docker-compose-deploy.yml
 #### This section provides the Traefik labels configuration used for various purposes such as basic authentication, rate limiting, routing, and load balancing.
 - `traefik.http.middlewares.api-auth.basicauth.users=${USERNAME?Variable not set}:${HASHED_PASSWORD?Variable not set}`
   - Specifies basic authentication middleware for API access. Requires username and hashed password.
@@ -41,11 +41,11 @@ CD to the path `memory_tracker/docker` and run the following commands to create 
 - `traefik.http.services.memory_tracker.loadbalancer.server.port=80`
   - Sets the port for the load balancer server to 80 for the memory tracker service.
 -----
-## Memory Logger API Documentation
+### Memory Logger API Documentation
 #### This API provides endpoints to retrieve memory usage logs.
 
-## Endpoints
-### Retrieve Memory Logs [GET] <br/> 
+### Endpoints
+#### Retrieve Memory Logs [GET] <br/> 
 ``http://logger.hadido.ir/memory-logs/?limit=10&skip=3``
 
 + Headers
