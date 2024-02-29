@@ -17,7 +17,7 @@ Use openssl to generate the "hashed" version of the password and store it in an 
 ``export HASHED_PASSWORD=$(openssl passwd -apr1 $PASSWORD)``
 ### Run
 CD to the path `memory_tracker/docker` and run the following commands to create and run stack:<br/>
-`docker stack deploy -c docker-compose-[deploy|dev].yml memory-tracker`
+```docker stack deploy -c docker-compose-[deploy|dev].yml memory-tracker```
 -----
 
 ### Docker Traefik Labels
