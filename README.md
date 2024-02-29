@@ -16,7 +16,8 @@ Create an environment variable with a username (you will use it for the HTTP Bas
 Use openssl to generate the "hashed" version of the password and store it in an environment variable:<br/>
 ``export HASHED_PASSWORD=$(openssl passwd -apr1 $PASSWORD)``
 ### Run
-CD to the path `memory_tracker/docker` and run the following commands to create and run stack:<br/>
+
+CD to the path `memory_tracker/docker` and run the following commands to create and run stack: <br />
 ```docker stack deploy -c docker-compose-[deploy|dev].yml memory-tracker```
 -----
 
