@@ -102,7 +102,7 @@ docker-compose-deploy.yml
             ]
         }
         ```
-+ Response 400 (application/json)
++ Response 404 (application/json)
     + Body
         ```
         {
